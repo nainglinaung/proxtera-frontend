@@ -6,7 +6,7 @@ import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import FormWrapper from '../components/FormWrapper';
-
+import { useForm, FormProvider  } from "react-hook-form";
 
 const steps = ['Basic User Information', 'Country and Address', 'Details'];
 
@@ -15,7 +15,9 @@ const steps = ['Basic User Information', 'Country and Address', 'Details'];
 export default function HorizontalLinearStepper() {
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
+  const methods = useForm({ mode: "all" });
 
+  let { formState: { errors },watch }= methods;
   const isStepOptional = (step) => {
     return step === 1;
   };
@@ -24,15 +26,33 @@ export default function HorizontalLinearStepper() {
     return skipped.has(step);
   };
 
+  const onSubmit = (data) => {
+    // alert("hi")
+    console.log(data)
+  }
+  
+
+  React.useEffect(() => {
+    console.log(errors)
+  }, [errors])
+  
+
   const handleNext = () => {
     let newSkipped = skipped;
     if (isStepSkipped(activeStep)) {
       newSkipped = new Set(newSkipped.values());
       newSkipped.delete(activeStep);
     }
-
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    setSkipped(newSkipped);
+    methods.trigger().then((validateSuccess) => {
+ 
+      if (validateSuccess) {
+        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+        setSkipped(newSkipped);
+      }
+    })
+   
+    
+   
   };
 
   const handleBack = () => {
@@ -41,8 +61,6 @@ export default function HorizontalLinearStepper() {
 
   const handleSkip = () => {
     if (!isStepOptional(activeStep)) {
-      // You probably want to guard against something like this,
-      // it should never occur unless someone's actively trying to break something.
       throw new Error("You can't skip a step that isn't optional.");
     }
 
@@ -58,17 +76,17 @@ export default function HorizontalLinearStepper() {
     setActiveStep(0);
   };
 
+
   return (
+    <FormProvider  {...methods}>
+   <form onSubmit={methods.handleSubmit(onSubmit)}>
+
     <Box sx={{ width: '100%' }}>
       <Stepper activeStep={activeStep}>
         {steps.map((label, index) => {
           const stepProps  = {};
           const labelProps  = {};
-          if (isStepOptional(index)) {
-            labelProps.optional = (
-              <Typography variant="caption">Optional</Typography>
-            );
-          }
+        
           if (isStepSkipped(index)) {
             stepProps.completed = false;
           }
@@ -80,7 +98,7 @@ export default function HorizontalLinearStepper() {
         })}
       </Stepper>
       {activeStep === steps.length ? (
-        <React.Fragment>
+        <>
           <Typography sx={{ mt: 2, mb: 1 }}>
             All steps completed - you&apos;re finished
           </Typography>
@@ -88,16 +106,12 @@ export default function HorizontalLinearStepper() {
             <Box sx={{ flex: '1 1 auto' }} />
             <Button onClick={handleReset}>Reset</Button>
           </Box>
-        </React.Fragment>
+        </>
       ) : (
         <React.Fragment>
 
             <FormWrapper activeStep={activeStep} />
-            {/* {activeStep == 0 && <BasicUserDetails />} 
-            {activeStep == 1 && <AddressForm />} 
-            {activeStep == 2 && <Details />}  */}
-            
-          {/* <Typography sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}</Typography> */}
+
           <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
             <Button
               color="inherit"
@@ -113,12 +127,16 @@ export default function HorizontalLinearStepper() {
                 Skip
               </Button>
             )}
-            <Button onClick={handleNext}>
-              {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-            </Button>
+            
+            {activeStep === steps.length - 1 ? <Button type="submit">Finish</Button> : <Button onClick={handleNext}>Next </Button>}
+          
           </Box>
         </React.Fragment>
       )}
     </Box>
+    </form>
+   
+    </FormProvider>
+
   );
 }
