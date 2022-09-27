@@ -1,5 +1,5 @@
 import React,{useState,useEffect} from 'react'
-import {Box, TextField, Grid, InputBase} from '@mui/material';
+import {Box, Grid} from '@mui/material';
 import {useFormContext, Controller} from 'react-hook-form';
 import PhoneInput, {isValidPhoneNumber} from 'react-phone-number-input'
 import styled from 'styled-components';
@@ -7,15 +7,6 @@ import 'react-phone-number-input/style.css'
 import ImageCropper from "./ImageCroppingWrapper"
 
 const isValidEmail = email => /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email);
-
-// function onFileSelect(e) {
-//     e.preventDefault();
-//     const selectedFile = e.target.files[0];
-//     props.onchange(true);
-//     setPreview(URL.createObjectURL(selectedFile))
-//     setValue('image',selectedFile);
-// }
-
 
 
 function BasicUserDetails({name, phone, email}) {
@@ -25,7 +16,6 @@ function BasicUserDetails({name, phone, email}) {
     const CustomBox = styled(Box)`
         margin-top:20px;
     `
-
 
     const CustomGridContainer = styled(Grid)`
         margin:20px 0px;
@@ -108,13 +98,13 @@ function BasicUserDetails({name, phone, email}) {
                 <Grid item
                     xs={2}>
                     <input type="email" id="standard-basic" variant="standard" label="Email" {...register("email",{
-                                                        required:"Email is Required",
-                                                        pattern: {
-                                                            value:
-                                                            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                                                            message: "Email must be valid",
-                                                        },  
-                                                        })}/>
+                    required:"Email is Required",
+                    pattern: {
+                        value:
+                        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                        message: "Email must be valid",
+                    },  
+                    })}/>
                    
                 </Grid>
                 <Grid item xs={2}>
