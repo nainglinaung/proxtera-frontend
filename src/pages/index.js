@@ -27,14 +27,20 @@ export default function HorizontalLinearStepper() {
   };
 
   const onSubmit = (data) => {
-    // alert("hi")
-    console.log(data)
+    fetch("https://webhook.site/c5c76877-e804-4b4d-b9eb-fdb2c8077ad9",{method:"POST",mode:"cors", headers: {
+      'Access-Control-Allow-Origin':'*'
+    }}).then(function (response) {
+      return response.json();
+  }).then(function (myJson) {
+      console.log(myJson)
+  });
+    // console.log("final data",data)
   }
   
 
-  React.useEffect(() => {
-    console.log(errors)
-  }, [errors])
+  // React.useEffect(() => {
+  //   console.log(errors)
+  // }, [errors])
   
 
   const handleNext = () => {
@@ -110,7 +116,7 @@ export default function HorizontalLinearStepper() {
       ) : (
         <React.Fragment>
 
-            <FormWrapper activeStep={activeStep} />
+          <FormWrapper activeStep={activeStep} />
 
           <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
             <Button

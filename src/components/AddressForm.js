@@ -1,4 +1,5 @@
 import React, {useState, useEffect, useRef} from 'react'
+import styled from 'styled-components';
 import {
     Box,
     TextField,
@@ -10,10 +11,21 @@ import {useFormContext} from 'react-hook-form';
 
 import 'react-phone-number-input/style.css'
 
+const CustomBox = styled(Box)`
+margin-top:20px;
+`
+
+const CustomGridContainer = styled(Grid)`
+margin:20px 0px;
+`
+
+const CustomGrid = styled.label`
+
+`
 
 function AddressForm() {
     const [options, setOptions] = useState([]);
-    const [selectedValue, setSelectedValue] = useState(null)
+    const [selectedValue, setSelectedValue] = useState("")
     const previousController = useRef();
     const {
         register,
@@ -27,7 +39,7 @@ function AddressForm() {
         getValues
     } = useFormContext(); // retrieve all hook methods
 
-    watch()
+
     const getData = (searchTerm) => {
         if (previousController.current) {
             previousController.current.abort();
@@ -55,21 +67,21 @@ function AddressForm() {
 
 
     return (
-        <Box>
-            <Grid container>
-                <Grid item
-                    xs={2}>
+        <CustomBox>
+            <CustomGridContainer container>
+                <Grid item xs={2}>
                     <label for>Address Line 1</label>
                 </Grid>
                 <Grid item
                     xs={2}>
                     <Autocomplete id="combo-box-demo"
+                    freeSolo
                         options={options}
                         onInputChange={onInputChange}
                         getOptionLabel={
                             (option) => option.title
                         }
-                        inputValue={selectedValue}
+                        // inputValue={selectedValue}
                         style={
                             {width: 300}
                         }
@@ -80,78 +92,72 @@ function AddressForm() {
                         }
                         onChange={
                             (event, value) => {
-                                setValue("address1", value.title)
+                                if (value && value.title) {
+                                    setValue("address1", value.title)
+                                }
+
                             }
                         }/>
                 </Grid>
 
-    </Grid>
-    <Grid container>
-        <Grid item
-            xs={2}>
+    </CustomGridContainer>
+    <CustomGridContainer container>
+        <Grid item xs={2}>
             <label for>Address Line 2 : Unit or Floor</label>
         </Grid>
-        <Grid item
-            xs={2}>
-            <input type="address2" id="standard-basic" variant="standard" label="Address Line 2" {...register("address2",{required:"Address Line 2 is Required",})}/>
-            <p>{
-                errors.address2 && errors.address2.message
-            }</p>
+        <Grid item xs={2}>
+            <input type="address2" id="standard-basic" variant="standard" label="Address Line 2" {...register("address2",{required:"Address Line 2 is Required",})}/> 
         </Grid>
-        <Grid container>
-            <Grid item
-                xs={2}>
-                <label for>City</label>
-            </Grid>
-            <Grid item
-                xs={2}>
-                <input type="city" id="standard-basic" variant="standard" label="Address Line 2" {...register("city",{required:"city is Required"})}/>
-                <p>{
-                    errors.city && errors.city.message
-                }</p>
-            </Grid>
+        <Grid item xs={2}>
+            {errors.address2 && errors.address2.message}    
         </Grid>
-        <Grid container>
-            <Grid item
-                xs={2}>
-                <label for>State</label>
-            </Grid>
-            <Grid item
-                xs={2}>
-                <input type="state" id="standard-basic" variant="standard" label="State" {...register("state",{required:"state is Required"})}/>
-                <p>{
-                    errors.state && errors.state.message
-                }</p>
-            </Grid>
+
+    </CustomGridContainer>
+    <CustomGridContainer container>
+        <Grid item xs={2}>
+            <label for>City</label>
         </Grid>
-        <Grid container>
-            <Grid item
-                xs={2}>
-                <label for>Country</label>
-            </Grid>
-            <Grid item
-                xs={2}>
-                <input type="state" id="standard-basic" variant="standard" label="Country" {...register("country",{required:"country is Required"})}/>
-                <p>{
-                    errors.country && errors.country.message
-                }</p>
-            </Grid>
+        <Grid item xs={2}>
+            <input type="city" id="standard-basic" variant="standard" label="Address Line 2" {...register("city",{required:"city is Required"})}/>
         </Grid>
-        <Grid container>
-            <Grid item
-                xs={2}>
+        <Grid item xs={2}>
+            {errors.city && errors.city.message}
+        </Grid> 
+    </CustomGridContainer>
+    <CustomGridContainer container>
+        <Grid item xs={2}>
+            <label for>State</label>
+        </Grid>
+        <Grid item xs={2}>
+            <input type="state" id="standard-basic" variant="standard" label="State" {...register("state",{required:"state is Required"})}/>
+        </Grid>
+        <Grid item xs={2}>
+            {errors.state && errors.state.message}
+        </Grid>
+    </CustomGridContainer>
+    <CustomGridContainer container>
+        <Grid item xs={2}>
+            <label for>Country</label>
+        </Grid>
+        <Grid item xs={2}>
+            <input type="state" id="standard-basic" variant="standard" label="Country" {...register("country",{required:"country is Required"})}/>
+        </Grid>
+        <Grid item xs={2}>
+            {errors.country && errors.country.message}
+        </Grid>
+    </CustomGridContainer>
+        <CustomGridContainer container>
+            <Grid item xs={2}>
                 <label for>Postal Code</label>
             </Grid>
-            <Grid item
-                xs={2}>
+            <Grid item xs={2}>
                 <input type="state" id="standard-basic" variant="standard" label="Postal" {...register("postal",{required:"Postal Code is Required"})}/>
-                <p>{
-                    errors.postal && errors.postal.message
-                }</p>
             </Grid>
-        </Grid>
-    </Grid>
-</Box>
+            <Grid item xs={2}>
+                {errors.postal && errors.postal.message}
+            </Grid>
+        </CustomGridContainer>
+  </CustomBox>
     )
 }
 

@@ -1,6 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import Index from './pages';
+import React from 'react'
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
