@@ -32,11 +32,6 @@ function ImageCroppingWrapper({setfinalImage}) {
   };
 
   const SetCropImage = () => {
-    console.log(croppedImage)
-
-    // blobToBase64(croppedImage).then((data) => {
-    //   console.log(data);
-    // })
     setfinalImage(croppedImage)
   }
 

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import ReactCrop from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
-import demoImage from "./demo-image.png";
 import {useFormContext} from 'react-hook-form';
 
 function ImageCropper(props) {
@@ -23,8 +22,6 @@ function ImageCropper(props) {
   }
 
   async function cropImage(crop) {
-
-  
     if (imageRef && crop.width && crop.height) {
       const croppedImage = await getCroppedImage(
         imageRef,
@@ -32,13 +29,10 @@ function ImageCropper(props) {
         "croppedImage.jpeg" // destination filename
       );
       // props.setfinalImage(imageRef)
-        console.log("only trigger when crop")
       // calling the props function to expose
       // croppedImage to the parent component
       onImageCropped(croppedImage);
-    } else {
-      console.log("outside")
-    }
+    } 
   }
 
   function getCroppedImage(sourceImage, cropConfig, fileName) {
@@ -52,7 +46,6 @@ function ImageCropper(props) {
     canvas.width = cropConfig.width;
     canvas.height = cropConfig.height;
     const ctx = canvas.getContext("2d");
-    console.log("sourceImage",sourceImage)
     ctx.drawImage(
       image,
       cropConfig.x * scaleX,
@@ -85,7 +78,7 @@ function ImageCropper(props) {
   return (
     // setImageRef(imageRef)
     <ReactCrop
-      src={imageToCrop || demoImage}
+      src={imageToCrop}
       crop={cropConfig}
       ruleOfThirds
       onImageLoaded={(imageRef) =>  setImageRef(imageRef)}

@@ -31,18 +31,9 @@ export default function HorizontalLinearStepper() {
       'Access-Control-Allow-Origin':'*'
     }}).then(function (response) {
       return response.json();
-  }).then(function (myJson) {
-      console.log(myJson)
-  });
-    // console.log("final data",data)
+  })
   }
   
-
-  // React.useEffect(() => {
-  //   console.log(errors)
-  // }, [errors])
-  
-
   const handleNext = () => {
     let newSkipped = skipped;
     if (isStepSkipped(activeStep)) {
