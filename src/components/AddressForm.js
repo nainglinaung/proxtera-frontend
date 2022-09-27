@@ -54,11 +54,12 @@ function AddressForm() {
                 return {title: p.display_address};
             });
             setOptions(updatedOptions);
-        });
+        }).catch(console.error);
     };
 
     const onInputChange = (event, value, reason) => {
         if (value) {
+            console.log(value);
             getData(value);
         } else {
             setOptions([]);

@@ -1,3 +1,11 @@
 .PhoneInput {
   margin-left: 20px;
 }
+
+.app {
+  text-align: center;
+}
+
+.app input {
+  margin-bottom: 10px;
+}

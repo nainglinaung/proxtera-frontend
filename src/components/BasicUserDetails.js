@@ -1,30 +1,40 @@
-import React from 'react'
+import React,{useState,useEffect} from 'react'
 import {Box, TextField, Grid, InputBase} from '@mui/material';
 import {useFormContext, Controller} from 'react-hook-form';
 import PhoneInput, {isValidPhoneNumber} from 'react-phone-number-input'
 import styled from 'styled-components';
 import 'react-phone-number-input/style.css'
-
+import ImageCropper from "./ImageCroppingWrapper"
 
 const isValidEmail = email => /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email);
 
+// function onFileSelect(e) {
+//     e.preventDefault();
+//     const selectedFile = e.target.files[0];
+//     props.onchange(true);
+//     setPreview(URL.createObjectURL(selectedFile))
+//     setValue('image',selectedFile);
+// }
 
 
 
 function BasicUserDetails({name, phone, email}) {
-    const {register, formState: {errors}, trigger, control} = useFormContext();
-
-
+    const {register, formState: {errors}, trigger, control,setValue} = useFormContext();
     
-  
-
+    const [finalImage, setfinalImage] = useState(null);
     const CustomBox = styled(Box)`
         margin-top:20px;
     `
 
+
     const CustomGridContainer = styled(Grid)`
         margin:20px 0px;
     `
+
+    useEffect(() => {
+        setValue("image",finalImage)
+    }, [finalImage])
+    
 
     return (
         <CustomBox>
@@ -36,7 +46,9 @@ function BasicUserDetails({name, phone, email}) {
                 </Grid>
                 <Grid item
                     xs={2}>
-                 lorem
+                        <ImageCropper setfinalImage={setfinalImage} />
+                        <img src={finalImage} />
+           
                 </Grid>
                 <Grid item xs={2}>
                     {/* {errors.name && errors.name.message} */}
